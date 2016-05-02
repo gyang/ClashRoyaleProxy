@@ -27,7 +27,7 @@ namespace ClashRoyaleProxy
             Console.Write("[PACKET " + p.ID + "] ");
             Console.ResetColor();
             Console.WriteLine(p.Type);
-            //LogToFile("Packet " + p.ID + " : " + p.DecryptedPayload, type);
+            LogToHexa(p.DecryptedPayload, p.ID);
         }
 
         /// <summary>
@@ -35,13 +35,18 @@ namespace ClashRoyaleProxy
         /// </summary>
         public static void LogToFile(string text, LogType type)
         {
-            if (!Directory.Exists("logs"))
-                Directory.CreateDirectory("logs");
-
-            string path = Environment.CurrentDirectory + @"\\logs\\log_" + System.DateTime.UtcNow.ToLocalTime().ToString("dd-MM-yyyy") + "." + "log";
+            string path = Environment.CurrentDirectory + @"\\Logs\\log_" + DateTime.UtcNow.ToLocalTime().ToString("dd-MM-yyyy") + "." + "log";
             StreamWriter sw = new StreamWriter(new FileStream(path, FileMode.Append));
-            sw.WriteLine("[" + System.DateTime.UtcNow.ToLocalTime().ToString("hh-mm-ss") + "-" + type + "] " + text);
+            sw.WriteLine("[" + DateTime.UtcNow.ToLocalTime().ToString("hh-mm-ss") + "-" + type + "] " + text);
             sw.Close();
+        }
+
+        public static void LogToHexa(byte[] p, int i)
+        {
+            if (!Directory.Exists(@"Packets\" + i))
+                Directory.CreateDirectory(@"Packets\" + i);
+            File.WriteAllText(@"Packets\" + i + @"\hexa.bin", BitConverter.ToString(p).Replace("-", string.Empty));
+            File.WriteAllText(@"Packets\" + i + @"\ascii.bin", Encoding.ASCII.GetString(p));
         }
     }
 }

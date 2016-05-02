@@ -13,15 +13,15 @@ http://infinitymodding.net
 ![alt text](https://cdn3.iconfinder.com/data/icons/free-social-icons/67/skype_circle_color-48.png "Contact me on skype") : julianzzxd
 ## Installation
 
-Open ClashRoyaleProxy.sln with your preferred C# IDE, compile it, make sure all NuGet packages are installed.
-Download [this](http://www.file-upload.net/download-11469803/modded_clash_royale.apk.html) APK file and install it on your rooted android device.
+Open ClashRoyaleProxy.sln with your favorite C# IDE, compile it, and make sure all NuGet packages are installed.
+Download [this](http://www.file-upload.net/download-11469803/modded_clash_royale.apk.html) APK file and install it on your rooted android device, or simply BlueStack.
 Connect to the official servers first, this step is required in order to get the latest patch files.
 Run & connect to the proxy.
 
 ## Proof of Concept
 
-![alt tag](http://i.imgur.com/plTAldN.png)
-![alt tag](http://i.imgur.com/fnrGl7j.png)
+![alt tag](https://i.imgur.com/plTAldN.png)
+![alt tag](https://i.imgur.com/fnrGl7j.png)
 
 ## Contributors
 
