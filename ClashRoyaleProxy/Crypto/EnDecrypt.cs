@@ -104,7 +104,7 @@ namespace ClashRoyaleProxy
             if (packetID == 10100 || packetID == 20100)
             {
                 // Both Session (10100) and SessionOk (20100) packets are not encrypted
-                // Thus.. just return the encrypted payload
+                // Thus.. just return the encrypted payload               
                 return encryptedPayload;
             }
             else if (packetID == 10101)
@@ -149,7 +149,7 @@ namespace ClashRoyaleProxy
                     _20103_20104_Nonce.Increment();
                     decryptedPayload = CustomNaCl.OpenSecretBox(new byte[16].Concat(encryptedPayload).ToArray(), _20103_20104_Nonce, _20103_20104_SharedKey);
                 }
-            }
+            }           
             return decryptedPayload;
         }
     }
