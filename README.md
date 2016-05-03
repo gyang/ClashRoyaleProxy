@@ -8,6 +8,7 @@ Motivated by *clugh*, *Ultrapowa* & *FICTURE7*
 
 ## Contact
 https://infinitymodding.net
+
 ![alt text](https://cdn3.iconfinder.com/data/icons/free-social-icons/67/skype_circle_color-48.png "Contact me on skype") : julianzzxd
 
 ## Installation
