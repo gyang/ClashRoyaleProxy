@@ -35,7 +35,7 @@ namespace ClashRoyaleProxy
         {
             get
             {
-                return Helper.HexToByteArray("ba105f0d3a099414d154046f41d80cf122b49902eab03b78a912f3c66dba2c39");
+                return Helper.HexToByteArray("2971520277bb38734fc36e2a0d95e76e969379a5372a44c1b2fd3c1766b0016a");
 
             }
         }
