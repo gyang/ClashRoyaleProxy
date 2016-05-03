@@ -2,21 +2,21 @@
 
 A proxy en/decrypting Clash Royale traffic.
 
-
 ## Motivation
 
 Motivated by *clugh*, *Ultrapowa* & *FICTURE7*
 
 ## Contact
-http://infinitymodding.net
-
+https://infinitymodding.net
 ![alt text](https://cdn3.iconfinder.com/data/icons/free-social-icons/67/skype_circle_color-48.png "Contact me on skype") : julianzzxd
+
 ## Installation
 
-Open ClashRoyaleProxy.sln with your favorite C# IDE, compile it, and make sure all NuGet packages are installed.
-Download [this](http://www.file-upload.net/download-11469803/modded_clash_royale.apk.html) APK file and install it on your rooted android device, or simply BlueStack.
+Open ClashRoyaleProxy.sln with a C# IDE, compile it, and make sure that all NuGet packages are installed.
+Download [this](http://en.file-upload.net/download-11543620/Modded_Clash_Royale_1.3.2.apk.html) APK file (Clash Royale v1.3.2) and install it on your rooted android device (BlueStacks works for sure).
 Connect to the official servers first, this step is required in order to get the latest patch files.
 Run & connect to the proxy.
+If you face any issues, watch [our video tutorial](https://www.youtube.com/watch?v=JWqzUf6XKUQ).
 
 ## Proof of Concept
 
