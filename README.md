@@ -18,12 +18,11 @@ Download [this](http://en.file-upload.net/download-11543620/Modded_Clash_Royale_
 This proxy unfortunately does not support iOS devices, yet.
 Connect to the official server (game.clashroyaleapp.com) first, this step is required in order to get the latest patches.
 You know it finished downloading when the client reloads and stucks at 50%, you can close Clash Royale then.
-Now, connect to the proxy by using Hosts Editor.
------------------------------------------------------------
-Hosts Editor > New host;
+Now, connect to the proxy - but don't forget to edit the hosts file before!
+
 IP: Insert your local computer IP, example: 192.168.178.37
+
 Host: Insert game.clashroyaleapp.com
------------------------------------------------------------
 
 If you have any issues, watch [this video tutorial](https://www.youtube.com/watch?v=JWqzUf6XKUQ).
 
