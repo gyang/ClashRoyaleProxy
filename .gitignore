@@ -3,3 +3,6 @@
 ################################################################################
 
 /.vs/ClashRoyaleProxy/v14
+/ClashRoyaleProxy/bin/Debug
+/ClashRoyaleProxy/obj/Debug
+*.user

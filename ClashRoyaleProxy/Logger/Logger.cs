@@ -9,13 +9,44 @@ namespace ClashRoyaleProxy
         /// <summary>
         /// Logs passed text
         /// </summary>
-        public static void Log(string text, LogType type)
+        public static void Log(string text, LogType type = LogType.INFO)
         {
-            Console.ForegroundColor = (type == LogType.EXCEPTION || type == LogType.WARNING) ? ConsoleColor.Red : ConsoleColor.Green;
-            Console.Write("[" + type + "] ");
-            Console.ResetColor();
-            Console.WriteLine(text);
-            //LogToFile(text, type);
+            if (Config.LoggingLevel == "default")
+            {
+                switch (type)
+                {
+                    case LogType.INFO:
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        break;
+                    case LogType.WARNING:
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        break;
+                    case LogType.EXCEPTION:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        break;
+                    case LogType.PACKET:
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        break;
+                    case LogType.PACKET_DATA:
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                        break;
+                }
+
+                Console.Write("[" + type + "] ");
+                Console.ResetColor();
+                Console.WriteLine(text);
+
+                string path = Environment.CurrentDirectory + @"\\Logs\\" + DateTime.UtcNow.ToLocalTime().ToString("dd-MM-yyyy") + ".log";
+                using (FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
+                {
+                    using (StreamWriter StreamWriter = new StreamWriter(fs))
+                    {
+                        StreamWriter.WriteLine("[" + DateTime.UtcNow.ToLocalTime().ToString("hh-mm-ss") + "-" + type + "] " + text);
+                        StreamWriter.Close();
+                    }
+                }
+
+            }
         }
 
         /// <summary>
@@ -23,30 +54,24 @@ namespace ClashRoyaleProxy
         /// </summary>
         public static void LogPacket(Packet p)
         {
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.Write("[PACKET " + p.ID + "] ");
-            Console.ResetColor();
-            Console.WriteLine(p.Type);
-            LogToHexa(p.DecryptedPayload, p.ID);
+            if (Config.LoggingLevel == "default")
+            {
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Logger.Log(p.ID + " : " + p.Type, LogType.PACKET);
+                Console.ResetColor();
+                LogPacketToHexFile(p);
+            }
         }
 
         /// <summary>
-        /// Logs passed text to a file
+        /// Logs passed packet to a hex file
         /// </summary>
-        public static void LogToFile(string text, LogType type)
+        public static void LogPacketToHexFile(Packet packet)
         {
-            string path = Environment.CurrentDirectory + @"\\Logs\\log_" + DateTime.UtcNow.ToLocalTime().ToString("dd-MM-yyyy") + "." + "log";
-            StreamWriter sw = new StreamWriter(new FileStream(path, FileMode.Append));
-            sw.WriteLine("[" + DateTime.UtcNow.ToLocalTime().ToString("hh-mm-ss") + "-" + type + "] " + text);
-            sw.Close();
-        }
-
-        public static void LogToHexa(byte[] p, int i)
-        {
-            if (!Directory.Exists(@"Packets\" + i))
-                Directory.CreateDirectory(@"Packets\" + i);
-            File.WriteAllText(@"Packets\" + i + @"\hexa.bin", BitConverter.ToString(p).Replace("-", string.Empty));
-            File.WriteAllText(@"Packets\" + i + @"\ascii.bin", Encoding.ASCII.GetString(p));
+            if (!Directory.Exists(@"Packets\\" + packet.ID.ToString()))
+                Directory.CreateDirectory(@"Packets\\" + packet.ID.ToString());
+            File.WriteAllText(@"Packets\\" + packet.ID + @"\\hex.txt", BitConverter.ToString(packet.DecryptedPayload).Replace("-", " "));
+            File.WriteAllText(@"Packets\\" + packet.ID + @"\\ascii.bin", Encoding.UTF8.GetString(packet.DecryptedPayload));
         }
     }
 }

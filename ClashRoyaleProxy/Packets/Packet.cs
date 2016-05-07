@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace ClashRoyaleProxy
 {
-    class Packet
+    class Packet : IDisposable
     {
         private byte[] rawPacket;
         private int packetID;
@@ -21,14 +21,18 @@ namespace ClashRoyaleProxy
 
         public Packet(byte[] buf, DataDestination d)
         {
-            // Read content
-            this.rawPacket = buf;
-            this.destination = d;
-            this.packetID = BitConverter.ToInt32(new byte[2].Concat(buf.Take(2)).Reverse().ToArray(), 0);
-            this.payloadLen = BitConverter.ToInt32(new byte[1].Concat(buf.Skip(2).Take(3)).Reverse().ToArray(), 0);
-            this.messageVer = BitConverter.ToInt32(new byte[2].Concat(buf.Skip(2).Skip(3).Take(2)).Reverse().ToArray(), 0);
-            this.payload = buf.Skip(7).ToArray();
-            this.packetType = PacketType.GetPacketTypeByID(packetID);
+            using (var PacketReader = new BinaryReader(new MemoryStream(buf)))
+            {           
+                this.rawPacket = buf;
+                this.destination = d;
+                this.packetID = PacketReader.ReadUShortWithEndian();
+                var tmp = PacketReader.ReadBytes(3);
+                this.payloadLen = ((0x00 << 24) | (tmp[0] << 16) | (tmp[1] << 8) | tmp[2]);
+                this.messageVer = PacketReader.ReadUShortWithEndian();
+                this.payload = PacketReader.ReadBytes(this.payloadLen);
+                this.packetType = PacketType.GetPacketType(packetID);
+                PacketReader.Close();
+            }
 
             // En/Decrypt payload
             this.decryptedPayload = EnDecrypt.DecryptPacket(this);
@@ -44,7 +48,13 @@ namespace ClashRoyaleProxy
         {
             get
             {
-                return BitConverter.GetBytes(ID).Reverse().Skip(2).Concat(BitConverter.GetBytes(EncryptedPayload.Length).Reverse().Skip(1)).Concat(BitConverter.GetBytes(MessageVersion).Reverse().Skip(2)).Concat(EncryptedPayload).ToArray();
+                List<Byte> builtPacket = new List<Byte>();
+                builtPacket.AddRange(BitConverter.GetBytes(this.packetID).Reverse().Skip(2));
+                builtPacket.AddRange(BitConverter.GetBytes(this.encryptedPayload.Length).Reverse().Skip(1));
+                builtPacket.AddRange(BitConverter.GetBytes(this.messageVer).Reverse().Skip(2));
+                builtPacket.AddRange(this.encryptedPayload);
+
+                return builtPacket.ToArray();
             }
         }
 
@@ -127,6 +137,9 @@ namespace ClashRoyaleProxy
             }
         }
 
+        /// <summary>
+        /// Returns packet info; Used for debugging
+        /// </summary>
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -136,6 +149,14 @@ namespace ClashRoyaleProxy
             sb.AppendLine("PayloadLen: " + DecryptedPayload.Length);
             sb.AppendLine("Payload: " + Encoding.UTF8.GetString(DecryptedPayload));
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Memory-friendly dispose method
+        /// </summary>
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }

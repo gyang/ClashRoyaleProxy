@@ -41,9 +41,9 @@ namespace ClashRoyaleProxy
         }
 
         /// <summary>
-        /// An old nonce used by Supercell.
+        /// An old RC4 nonce used by Supercell.
         /// </summary>
-        public static byte[] Nonce
+        public static byte[] RC4_Nonce
         {
             get
             {

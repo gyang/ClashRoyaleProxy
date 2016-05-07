@@ -12,7 +12,6 @@ namespace ClashRoyaleProxy
     {
         private static Dictionary<int, string> KnownPackets = new Dictionary<int, string>()
         {
-            /* ALL PACKET TYPES! */
             { 10100, "ClientHello" },
             { 10101, "Login" },
             { 10107, "ClientCapabilities" },
@@ -95,7 +94,7 @@ namespace ClashRoyaleProxy
             { 20206, "AvatarOnlineStatusUpdated"},
             { 20207, "AllianceOnlineStatusUpdated" },
             { 20225, "BattleResult" },
-            { 20300, "AvatarNahmeCheckResponse" },
+            { 20300, "AvatarNameCheckResponse" },
             { 20801, "OpponentLeftMatchNotification" },
             { 20802, "OpponentRejoinsMatchNotification" },
             { 21902, "SectorHearbeat" },
@@ -161,30 +160,19 @@ namespace ClashRoyaleProxy
             { 26004, "LogicDeviceLinkCodeDeactivated" },
             { 26005, "LogicDeviceLinkResponse" },
             { 26007, "LogicDeviceLinkDone" },
-            { 26008, "LogicDeviceLinkError" },
+            { 26008, "LogicDeviceLinkError" }
         };
 
         /// <summary>
         /// Gets the packet type according to the ID
         /// </summary>
-        public static string GetPacketTypeByID(int messageID)
+        public static string GetPacketType(int messageID)
         {
+            string ret = "Unknown";
             if (KnownPackets.ContainsKey(messageID))
-            {
-                string ret = String.Empty;
                 KnownPackets.TryGetValue(messageID, out ret);
-                return ret;
-            }
-            return "Unknown packet";
-        }
 
-        /// <summary>
-        /// Gets the packet ID according to the type
-        /// </summary>
-        public static int GetPacketIDByType(string type)
-        {
-            return KnownPackets.FirstOrDefault(x => x.Value == type).Key;
+            return ret;
         }
-
     }
 }

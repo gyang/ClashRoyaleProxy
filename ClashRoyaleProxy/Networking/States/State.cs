@@ -5,7 +5,7 @@ namespace ClashRoyaleProxy
     public class State
     {
         public Socket socket;
-        public const int BufferSize = 1024;
+        public const int BufferSize = 2048;
         public byte[] buffer = new byte[BufferSize];
         public byte[] packet = new byte[0];
     }

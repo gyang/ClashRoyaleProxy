@@ -80,12 +80,17 @@ namespace ClashRoyaleProxy
             else
             {
                 // We're dealing with another packet. Depends whether it's a client packet or not.
-                if (p.Destination == DataDestination.DATA_FROM_CLIENT)
+                if (p.Destination == DataDestination.FROM_CLIENT)
                 {
                     encryptedPayload = CustomNaCl.CreateSecretBox(decryptedPayload, _10101_Nonce, _20103_20104_SharedKey).Skip(16).ToArray();
                 }
                 else
                 {
+                    if(p.ID == 24101 && Config.Modding)
+                    {
+                        return CustomNaCl.CreateSecretBox(OwnHomeData.GetPwnedHomeData(), _20103_20104_Nonce, _20103_20104_SharedKey).Skip(16).ToArray();
+                    }
+
                     encryptedPayload = CustomNaCl.CreateSecretBox(decryptedPayload, _20103_20104_Nonce, _20103_20104_SharedKey).Skip(16).ToArray();
                 }
             }
@@ -139,13 +144,13 @@ namespace ClashRoyaleProxy
             }
             else
             {
-                if (p.Destination == DataDestination.DATA_FROM_CLIENT)
+                if (p.Destination == DataDestination.FROM_CLIENT)
                 {
                     _10101_Nonce.Increment();
                     decryptedPayload = CustomNaCl.OpenSecretBox(new byte[16].Concat(encryptedPayload).ToArray(), _10101_Nonce, _20103_20104_SharedKey);
                 }
                 else
-                {
+                {                   
                     _20103_20104_Nonce.Increment();
                     decryptedPayload = CustomNaCl.OpenSecretBox(new byte[16].Concat(encryptedPayload).ToArray(), _20103_20104_Nonce, _20103_20104_SharedKey);
                 }

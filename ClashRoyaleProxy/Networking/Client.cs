@@ -6,8 +6,7 @@ namespace ClashRoyaleProxy
 {
     class Client
     {
-        private const string CRHost_IOS = "game.clashroyaleapp.com";
-        private const string CRHost_ANDROID = "gamec.clashroyaleapp.com";
+        private const string CRHost = "game.clashroyaleapp.com";
         private const int CRPort = 9339;
 
         public Socket ClientSocket, ServerSocket;
@@ -23,15 +22,15 @@ namespace ClashRoyaleProxy
         public void Enqueue()
         {
             // Connect to the official supercell server
-            IPHostEntry ipHostInfo = Dns.GetHostEntry(CRHost_ANDROID);
+            IPHostEntry ipHostInfo = Dns.GetHostEntry(CRHost);
             IPAddress ipAddress = ipHostInfo.AddressList[0];
             IPEndPoint remoteEndPoint = new IPEndPoint(ipAddress, CRPort);
             ServerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             ServerSocket.Connect(remoteEndPoint);
 
             // Start async recv/send procedure
-            Logger.Log("Proxy attached to " + CRHost_ANDROID + " (" + ServerRemoteAdr + ")!", LogType.INFO);
-            Logger.Log("Starting async recv/send threads..", LogType.INFO);
+            Logger.Log("Proxy attached to " + CRHost + " (" + ServerRemoteAdr + ")!");
+            Logger.Log("Starting async recv/send threads..");
             new ReceiveSendThread(ClientSocket, ServerSocket);              
         }
 

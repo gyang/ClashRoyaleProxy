@@ -44,6 +44,14 @@ namespace ClashRoyaleProxy
         }
 
         /// <summary>
+        /// Replaces bytes in a byte array
+        /// </summary>
+        public static void Replace(this byte[] src, byte[] search, byte[] repl)
+        {
+            ByteUtil.ReplaceBytes(src, search, repl);
+        }
+
+        /// <summary>
         /// Returns if a socket disconnected
         /// </summary>
         public static bool Disconnected(this Socket socket)

@@ -7,7 +7,7 @@ namespace ClashRoyaleProxy
     /// </summary>
     enum DataDestination
     {
-        DATA_FROM_CLIENT,
-        DATA_FROM_SERVER
+        FROM_CLIENT,
+        FROM_SERVER
     }
 }

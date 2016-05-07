@@ -70,13 +70,13 @@ namespace ClashRoyaleProxy
                             bytesAvailable -= bytesNeeded;
                             if (state.GetType() == typeof(ClientState))
                             {
-                                Packet clientPacket = new Packet(state.packet, DataDestination.DATA_FROM_CLIENT);
+                                Packet clientPacket = new Packet(state.packet, DataDestination.FROM_CLIENT);
                                 Logger.LogPacket(clientPacket);
                                 ServerSocket.Send(clientPacket.Raw);
                             }
                             else if (state.GetType() == typeof(ServerState))
                             {
-                                Packet serverPacket = new Packet(state.packet, DataDestination.DATA_FROM_SERVER);
+                                Packet serverPacket = new Packet(state.packet, DataDestination.FROM_SERVER);
                                 Logger.LogPacket(serverPacket);
                                 ClientSocket.Send(serverPacket.Raw);
                             }
@@ -106,6 +106,10 @@ namespace ClashRoyaleProxy
             }
 
         }
+
+        /// <summary>
+        /// Memory-friendly dispose method
+        /// </summary>
         public virtual void Dispose()
         {
             ClientSocket.Disconnect(false);
