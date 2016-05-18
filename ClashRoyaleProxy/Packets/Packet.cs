@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace ClashRoyaleProxy
 {
-    class Packet : IDisposable
+    public class Packet : IDisposable
     {
         private byte[] rawPacket;
         private int packetID;

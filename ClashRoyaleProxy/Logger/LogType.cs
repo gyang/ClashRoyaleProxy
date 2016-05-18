@@ -2,7 +2,7 @@
 
 namespace ClashRoyaleProxy
 {
-    enum LogType
+    public enum LogType
     {
         INFO, // A normal text (i.e. "Proxy started")
         WARNING, // A warning (i.e. 2 running proxys)

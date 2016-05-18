@@ -5,7 +5,7 @@ namespace ClashRoyaleProxy
     /// <summary>
     /// Specifies if a packet is client or server sided
     /// </summary>
-    enum DataDestination
+    public enum DataDestination
     {
         FROM_CLIENT,
         FROM_SERVER

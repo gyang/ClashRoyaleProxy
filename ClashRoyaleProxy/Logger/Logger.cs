@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ClashRoyaleProxy
 {
-    class Logger
+using System.Diagnostics;
     {
         /// <summary>
         /// Logs passed text
@@ -36,16 +36,7 @@ namespace ClashRoyaleProxy
                 Console.ResetColor();
                 Console.WriteLine(text);
 
-                string path = Environment.CurrentDirectory + @"\\Logs\\" + DateTime.UtcNow.ToLocalTime().ToString("dd-MM-yyyy") + ".log";
-                using (FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
-                {
-                    using (StreamWriter StreamWriter = new StreamWriter(fs))
-                    {
-                        StreamWriter.WriteLine("[" + DateTime.UtcNow.ToLocalTime().ToString("hh-mm-ss") + "-" + type + "] " + text);
-                        StreamWriter.Close();
-                    }
-                }
-
+                WriteEntry(text, type.ToString());
             }
         }
 
@@ -57,21 +48,19 @@ namespace ClashRoyaleProxy
             if (Config.LoggingLevel == "default")
             {
                 Console.ForegroundColor = ConsoleColor.Magenta;
-                Logger.Log(p.ID + " : " + p.Type, LogType.PACKET);
+                Logger.Log(p.ID + " : " + p.Type + ", hex : " + Encoding.UTF8.GetString(p.DecryptedPayload),
+                    LogType.PACKET);
                 Console.ResetColor();
-                LogPacketToHexFile(p);
             }
         }
 
-        /// <summary>
-        /// Logs passed packet to a hex file
-        /// </summary>
-        public static void LogPacketToHexFile(Packet packet)
+        private static void WriteEntry(string message, string type)
         {
-            if (!Directory.Exists(@"Packets\\" + packet.ID.ToString()))
-                Directory.CreateDirectory(@"Packets\\" + packet.ID.ToString());
-            File.WriteAllText(@"Packets\\" + packet.ID + @"\\hex.txt", BitConverter.ToString(packet.DecryptedPayload).Replace("-", " "));
-            File.WriteAllText(@"Packets\\" + packet.ID + @"\\ascii.bin", Encoding.UTF8.GetString(packet.DecryptedPayload));
+            Trace.WriteLine(
+                string.Format("{0},{1},{2}",
+                    DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    type,
+                    message));
         }
     }
 }
