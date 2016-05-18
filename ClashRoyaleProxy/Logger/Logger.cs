@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
 namespace ClashRoyaleProxy
 {
-using System.Diagnostics;
+    public class Logger
     {
         /// <summary>
         /// Logs passed text
